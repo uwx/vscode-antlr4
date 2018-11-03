@@ -24,6 +24,8 @@ export class AntlrCodeLensProvider implements CodeLensProvider {
         return this._onDidChangeCodeLenses.event;
     }
     
+    //public isWaitingFor = new Set<string>();
+    
     constructor(private backend: AntlrFacade) { }
 
     public reset(reason?: 'idle' | 'saved') {
@@ -36,6 +38,10 @@ export class AntlrCodeLensProvider implements CodeLensProvider {
         }
 
         this.documentName = document.fileName;
+        //if (this.isWaitingFor.has(this.documentName)) {
+        //    return [];
+        //}
+
         this.documentText = document.getText();
         let symbols = this.backend.listSymbolsFast(this.documentName, this.documentText, false);
         var lenses = [];

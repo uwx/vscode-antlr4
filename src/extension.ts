@@ -185,6 +185,8 @@ export function activate(context: ExtensionContext) {
             if (changeTimers.has(fileName)) {
                 clearTimeout(changeTimers.get(fileName));
             }
+            //codeLensProvider.isWaitingFor.add(fileName);
+            //codeLensProvider.reset();
             changeTimers.set(fileName, setTimeout(() => {
                 changeTimers.delete(fileName);
                 backend.reparse(fileName);
@@ -192,6 +194,7 @@ export function activate(context: ExtensionContext) {
                 importsProvider.refresh();
                 callGraphProvider.update(window.activeTextEditor!);
                 processDiagnostic(event.document);
+                //codeLensProvider.isWaitingFor.delete(fileName);
                 codeLensProvider.reset();
             }, 300));
         }
